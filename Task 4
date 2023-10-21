@@ -1,0 +1,59 @@
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import javafx.geometry.Insets;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
+public class TipCalculator extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Tip Calculator");
+
+        // Create controls
+        Label billLabel = new Label("Enter the bill amount: $");
+        TextField billAmountField = new TextField();
+        Button calculateButton = new Button("Calculate Tip");
+        Label tipAmountLabel = new Label("Tip Amount: $"); // This label initially displays nothing
+
+        // Create a VBox layout container
+        VBox vbox = new VBox(10); // 10 pixels of spacing
+        vbox.setAlignment(Pos.CENTER); // Center alignment
+        vbox.setPadding(new Insets(10)); // 10 pixels of padding
+
+        // Add controls to the VBox
+        vbox.getChildren().addAll(billLabel, billAmountField, calculateButton, tipAmountLabel);
+
+        // Create an event handler for the button click
+        calculateButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Calculate the tip (20% of the entered bill amount)
+                try {
+                    double billAmount = Double.parseDouble(billAmountField.getText());
+                    double tipAmount = 0.20 * billAmount;
+                    tipAmountLabel.setText("Tip Amount: $" + String.format("%.2f", tipAmount));
+                } catch (NumberFormatException e) {
+                    tipAmountLabel.setText("Invalid input");
+                }
+            }
+        });
+
+        // Instantiate a Scene and set the VBox as the root node
+        Scene scene = new Scene(vbox, 300, 200);
+
+        // Set the scene to the stage, and display it
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+}
